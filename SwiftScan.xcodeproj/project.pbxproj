@@ -15,6 +15,7 @@
 		72CE92812AEB913D00B934FD /* SwiftScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CE92802AEB913D00B934FD /* SwiftScanTests.swift */; };
 		72CE928B2AEB913D00B934FD /* SwiftScanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CE928A2AEB913D00B934FD /* SwiftScanUITests.swift */; };
 		72CE928D2AEB913D00B934FD /* SwiftScanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CE928C2AEB913D00B934FD /* SwiftScanUITestsLaunchTests.swift */; };
+		72CEFEB22AF245B6000B6B72 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 72CEFEB12AF245B6000B6B72 /* .gitignore */; };
 		72E54C672AEC5CC6008C3409 /* PDFListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E54C662AEC5CC6008C3409 /* PDFListModel.swift */; };
 		72EE81D62AF23BAA00781A35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72EE81D52AF23BAA00781A35 /* GoogleService-Info.plist */; };
 		72EE81D82AF23C6A00781A35 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 72EE81D72AF23C6A00781A35 /* FirebaseAnalytics */; };
@@ -77,6 +78,7 @@
 		72CE92862AEB913D00B934FD /* SwiftScanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftScanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		72CE928A2AEB913D00B934FD /* SwiftScanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftScanUITests.swift; sourceTree = "<group>"; };
 		72CE928C2AEB913D00B934FD /* SwiftScanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftScanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		72CEFEB12AF245B6000B6B72 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		72E54C662AEC5CC6008C3409 /* PDFListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFListModel.swift; sourceTree = "<group>"; };
 		72EE81D52AF23BAA00781A35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +167,7 @@
 				72CE92772AEB913C00B934FD /* Info.plist */,
 				72CE92732AEB913C00B934FD /* Preview Content */,
 				72E54C662AEC5CC6008C3409 /* PDFListModel.swift */,
+				72CEFEB12AF245B6000B6B72 /* .gitignore */,
 			);
 			path = SwiftScan;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72CEFEB22AF245B6000B6B72 /* .gitignore in Resources */,
 				72CE92752AEB913C00B934FD /* Preview Assets.xcassets in Resources */,
 				72CE92722AEB913C00B934FD /* Assets.xcassets in Resources */,
 				72EE81D62AF23BAA00781A35 /* GoogleService-Info.plist in Resources */,
