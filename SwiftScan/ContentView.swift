@@ -10,6 +10,21 @@ import AVFoundation
 import PDFKit
 import FirebaseStorage
 
+struct BarcodeStatusView: View {
+    let message: String
+    let backgroundColor: Color
+
+    var body: some View {
+        Text(message)
+            .font(.headline)
+            .padding()
+            .background(backgroundColor)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     @StateObject var camera = CameraModel()
     @State private var showSidebar: Bool = false
@@ -30,23 +45,23 @@ struct ContentView: View {
                                     .listRowBackground(pdf == selectedPDF ? Color.blue : Color(UIColor.systemGray6))
                             }
                         }
-                        .navigationBarItems(leading: EditButton())
                         .navigationBarTitle("PDF Files")
                     } else {
                         ZStack {
                             CameraView(camera: camera)
-                            if let barcode = camera.detectedBarcode, let pdf = selectedPDF, let pdfText = extractTextFromPDF(pdf) {
-                                if pdfText.contains(barcode) {
-                                    Text("Barcode found in the PDF!")
-                                        .background(Color.green)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                } else {
-                                    Text("Barcode not found in the PDF.")
-                                        .background(Color.red)
-                                        .foregroundColor(.white)
-                                        .padding()
+                            
+                            VStack {
+                                if let barcode = camera.detectedBarcode, let pdf = selectedPDF, let pdfText = extractTextFromPDF(pdf) {
+                                    if pdfText.contains(barcode) {
+                                        BarcodeStatusView(message: "Barcode found in the PDF!", backgroundColor: .green)
+                                    } else {
+                                        BarcodeStatusView(message: "Barcode not found in the PDF.", backgroundColor: .red)
+                                    }
                                 }
+                                else if let barcode = camera.detectedBarcode, selectedPDF == nil {
+                                    BarcodeStatusView(message: "Select a PDF", backgroundColor: .clear)
+                                }
+                                Spacer()
                             }
                         }
                     }
@@ -78,18 +93,12 @@ struct CameraView: View {
                 CameraPreview(camera: camera)
                     .ignoresSafeArea(.all, edges: .all)
                 
-                // Define the fixed box size
                 let boxWidth: CGFloat = geometry.size.width * 0.6
                 let boxHeight: CGFloat = geometry.size.height * 0.3
-                let centeredBox = CGRect(
-                    x: geometry.frame(in: .local).midX - boxWidth / 2,
-                    y: geometry.frame(in: .local).midY - boxHeight / 2,
-                    width: boxWidth,
-                    height: boxHeight
-                )
                 
-                BoundingBoxCorners(boundingBox: centeredBox)
-                            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+                InvertedMaskView(width: boxWidth, height: boxHeight)
+                    .fill(Color.black.opacity(0.4), style: FillStyle(eoFill: true))
+                    .ignoresSafeArea()
             }
         }
         .onAppear(perform: {
@@ -98,49 +107,14 @@ struct CameraView: View {
     }
 }
 
-struct BoundingBoxCorners: View {
-    var boundingBox: CGRect
-    var cornerLength: CGFloat = 20.0
-    var lineWidth: CGFloat = 2.0
+struct InvertedMaskView: Shape {
+    var width: CGFloat
+    var height: CGFloat
 
-    var body: some View {
-        ZStack {
-            // Top-left corner
-            Path { path in
-                path.move(to: CGPoint(x: boundingBox.minX, y: boundingBox.minY))
-                path.addLine(to: CGPoint(x: boundingBox.minX + cornerLength, y: boundingBox.minY))
-                path.move(to: CGPoint(x: boundingBox.minX, y: boundingBox.minY))
-                path.addLine(to: CGPoint(x: boundingBox.minX, y: boundingBox.minY + cornerLength))
-            }
-            .stroke(Color.yellow, lineWidth: lineWidth)
-
-            // Top-right corner
-            Path { path in
-                path.move(to: CGPoint(x: boundingBox.maxX, y: boundingBox.minY))
-                path.addLine(to: CGPoint(x: boundingBox.maxX - cornerLength, y: boundingBox.minY))
-                path.move(to: CGPoint(x: boundingBox.maxX, y: boundingBox.minY))
-                path.addLine(to: CGPoint(x: boundingBox.maxX, y: boundingBox.minY + cornerLength))
-            }
-            .stroke(Color.yellow, lineWidth: lineWidth)
-
-            // Bottom-left corner
-            Path { path in
-                path.move(to: CGPoint(x: boundingBox.minX, y: boundingBox.maxY))
-                path.addLine(to: CGPoint(x: boundingBox.minX + cornerLength, y: boundingBox.maxY))
-                path.move(to: CGPoint(x: boundingBox.minX, y: boundingBox.maxY))
-                path.addLine(to: CGPoint(x: boundingBox.minX, y: boundingBox.maxY - cornerLength))
-            }
-            .stroke(Color.yellow, lineWidth: lineWidth)
-
-            // Bottom-right corner
-            Path { path in
-                path.move(to: CGPoint(x: boundingBox.maxX, y: boundingBox.maxY))
-                path.addLine(to: CGPoint(x: boundingBox.maxX - cornerLength, y: boundingBox.maxY))
-                path.move(to: CGPoint(x: boundingBox.maxX, y: boundingBox.maxY))
-                path.addLine(to: CGPoint(x: boundingBox.maxX, y: boundingBox.maxY - cornerLength))
-            }
-            .stroke(Color.yellow, lineWidth: lineWidth)
-        }
+    func path(in rect: CGRect) -> Path {
+        var path = Rectangle().path(in: rect)
+        path.addPath(RoundedRectangle(cornerRadius: 20).path(in: CGRect(x: (rect.width - width) / 2, y: (rect.height - height) / 2, width: width, height: height)))
+        return path
     }
 }
 

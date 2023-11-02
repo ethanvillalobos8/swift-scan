@@ -17,7 +17,6 @@ class PDFListModel: ObservableObject {
     }
     
     func fetchPDFs() {
-        // Assuming you have a folder called 'pdfs' in Firebase Storage
         storage.child("pdfs").listAll { (result, error) in
             if let error = error {
                 print("Error fetching PDFs: \(error)")
